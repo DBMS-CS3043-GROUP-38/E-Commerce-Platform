@@ -36,19 +36,16 @@
 .product-item img {
     width: 60%;
     height: 200px; /* Fixed height for images */
-    object-fit: cover; /* Ensures the image covers the entire container without distortion */
+    object-fit: cover; /* Covers the entire container without distortion */
     border-radius: 40px;
     margin: 0 auto; /* Center the image */
 }
 
-/* Product title, price, and button styles */
-.product-item h3,
-.product-item p,
-.product-item button {
+/* Product title and price styles */
+.product-item h3, .product-item p, .product-item button {
     margin: 10px 0;
 }
 
-/* Product description styles */
 .product-item p {
     font-size: 1rem;
     color: hwb(125 16% 31%);
@@ -63,7 +60,7 @@
     text-align: center;
     margin-top: 10px;
     width: 60px;
-    box-shadow: 0 2px 4px rgba(190, 72, 72, 0.1);
+    box-shadow: 0 2px 4px #be48481a;
 }
 
 .product-item input:focus {
@@ -91,7 +88,6 @@
     transform: scale(1.05);
 }
 
-/* Success message styles */
 .success-message {
     color: green;
     font-size: 1.2em;
@@ -115,11 +111,35 @@
     text-align: center;
     font-size: 1rem;
     font-weight: bold;
-    text-transform: uppercase;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .go-to-cart-btn:hover {
-    background-color: hsl(62, 57%, 55%);
-    transform: scale(1.05);
+    background-color: #218838;
+}
+/* Add this to your existing CSS file */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 10px 15px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination button.active {
+    background-color: #007bff;
+    color: white;
 }

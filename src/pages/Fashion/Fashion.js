@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Breadcrumbs from '../../components/pageProps/Breadcrumbs';
+import ShopSideNav from '../../components/pageProps/shopPage/ShopSideNav';
+import ProductBanner from '../../components/pageProps/shopPage/ProductBanner';
+import Pagination from '../../components/pageProps/shopPage/Pagination'; // Make sure this path is correct
 import './ProductPage.css'; // Importing shared CSS file
 
 // Import images for fashion items
@@ -16,6 +20,10 @@ import fashionImage9 from '../../assets/images/fashion/00001-2.jpg';
 const Fashion = () => {
     const [quantities, setQuantities] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(6); // You can adjust the number of items per page here
+
+    const navigate = useNavigate();
 
     // Define the fashion items here
     const fashionItems = [
@@ -27,10 +35,8 @@ const Fashion = () => {
         { id: 6, image: fashionImage6, name: 'Men Shirt Classic', price: 15 },
         { id: 7, image: fashionImage7, name: 'Mens Top', price: 10 },
         { id: 8, image: fashionImage8, name: 'Trouser', price: 12 },
-        { id: 9, image: fashionImage9, name: 'Casual Slimfit', price: 15 }
+        { id: 9, image: fashionImage9, name: 'Casual Slimfit', price: 15 },
     ];
-
-    const navigate = useNavigate();
 
     const handleQuantityChange = (id, quantity) => {
         setQuantities(prevQuantities => ({
@@ -42,7 +48,6 @@ const Fashion = () => {
     const handleAddToCart = (item) => {
         const quantity = quantities[item.id] || 1;
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        console.log('Initial cart:', cart);
 
         const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
 
@@ -52,9 +57,7 @@ const Fashion = () => {
             cart.push({ ...item, quantity });
         }
 
-        console.log('Updated cart:', cart);
         localStorage.setItem('cart', JSON.stringify(cart));
-
         setSuccessMessage(`Added ${item.name} to cart successfully!`);
         setTimeout(() => setSuccessMessage(''), 3000);
     };
@@ -63,31 +66,53 @@ const Fashion = () => {
         navigate('/cart');
     };
 
+    // Pagination Logic
+    const totalItems = fashionItems.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    // Calculate the items to display for the current page
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentItems = fashionItems.slice(startIndex, startIndex + itemsPerPage);
+
     return (
         <div className="product-page">
-            <h1>Fashion Page</h1>
+            <Breadcrumbs title="Fashion" />
             <button onClick={handleGoToCart} className="go-to-cart-btn">
                 Go to Cart
             </button>
 
             {successMessage && <div className="success-message">{successMessage}</div>}
 
-            <div className="product-grid">
-                {fashionItems.map((item) => (
-                    <div key={item.id} className="product-item">
-                        <img src={item.image} alt={item.name} />
-                        <h3>{item.name}</h3>
-                        <p>${item.price}</p>
-                        <input
-                            type="number"
-                            min="1"
-                            value={quantities[item.id] || 1}
-                            onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value, 10))}
-                            className="quantity-input"
-                        />
-                        <button onClick={() => handleAddToCart(item)}>Add to Cart</button>
+            <div className="flex gap-10">
+                <div className="w-[20%] hidden mdl:inline-flex h-full">
+                    <ShopSideNav />
+                </div>
+                <div className="w-full mdl:w-[80%] flex flex-col gap-10">
+                    <ProductBanner />
+                    <div className="product-grid">
+                        {currentItems.map((item) => (
+                            <div key={item.id} className="product-item">
+                                <img src={item.image} alt={item.name} />
+                                <h3>{item.name}</h3>
+                                <p>${item.price}</p>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={quantities[item.id] || 1}
+                                    onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value, 10))}
+                                    className="quantity-input"
+                                />
+                                <button onClick={() => handleAddToCart(item)}>Add to Cart</button>
+                            </div>
+                        ))}
                     </div>
-                ))}
+                    {/* Pagination Component */}
+                    <Pagination 
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={(page) => setCurrentPage(page)} 
+                    />
+                </div>
             </div>
         </div>
     );

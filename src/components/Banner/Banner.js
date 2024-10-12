@@ -9,7 +9,8 @@ import {
 import Image from "../designLayouts/Image";
 
 const Banner = () => {
-  const [dotActive, setDocActive] = useState(0);
+  const [dotActive, setDotActive] = useState(0); // Fixed typo: setDotActive
+
   const settings = {
     dots: true,
     infinite: true,
@@ -17,8 +18,8 @@ const Banner = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
-    beforeChange: (prev, next) => {
-      setDocActive(next);
+    beforeChange: (current, next) => {
+      setDotActive(next);
     },
     appendDots: (dots) => (
       <div
@@ -99,25 +100,40 @@ const Banner = () => {
       },
     ],
   };
+
   return (
     <div className="w-full bg-white">
-      <Slider {...settings}>
-        <Link to="/offer">
-          <div>
-            <Image imgSrc={bannerImgOne} />
-          </div>
-        </Link>
-        <Link to="/offer">
-          <div>
-            <Image imgSrc={bannerImgTwo} />
-          </div>
-        </Link>
-        <Link to="/offer">
-          <div>
-            <Image imgSrc={bannerImgThree} />
-          </div>
-        </Link>
-      </Slider>
+      {/* 
+        Adjust the height of the banner by changing the height class below.
+        Example: h-64 (16rem), h-48 (12rem), h-32 (8rem), etc.
+      */}
+      <div className="relative h-66"> {/* <-- Change h-64 to desired height */}
+        <Slider {...settings}>
+          {/* Slide 1 */}
+          <Link to="/offer">
+            <div className="relative h-full">
+              <Image imgSrc={bannerImgOne} className="object-cover w-full h-full" />
+              {/* Text removed */}
+            </div>
+          </Link>
+
+          {/* Slide 2 */}
+          <Link to="/offer">
+            <div className="relative h-full">
+              <Image imgSrc={bannerImgTwo} className="object-cover w-full h-full" />
+              {/* Text removed */}
+            </div>
+          </Link>
+
+          {/* Slide 3 */}
+          <Link to="/offer">
+            <div className="relative h-full">
+              <Image imgSrc={bannerImgThree} className="object-cover w-full h-full" />
+              {/* Text removed */}
+            </div>
+          </Link>
+        </Slider>
+      </div>
     </div>
   );
 };

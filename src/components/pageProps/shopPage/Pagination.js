@@ -43,9 +43,9 @@ const Pagination = ({ itemsPerPage }) => {
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % items.length;
     setItemOffset(newOffset);
-    // console.log(
-    //   `User requested page number ${event.selected}, which is offset ${newOffset},`
-    // );
+     console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset},`
+      );
     setItemStart(newOffset);
   };
 

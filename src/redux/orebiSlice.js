@@ -1,58 +1,47 @@
-import { createSlice } from "@reduxjs/toolkit";
+// src/redux/orebiSlice.js
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  userInfo: [],
-  products: [],
-};
-
-export const orebiSlice = createSlice({
-  name: "orebi",
-  initialState,
+const orebiSlice = createSlice({
+  name: 'orebi',
+  initialState: {
+    products: [], // Array of cart items
+  },
   reducers: {
     addToCart: (state, action) => {
-      const item = state.products.find(
-        (item) => item._id === action.payload._id
-      );
-      if (item) {
-        item.quantity += action.payload.quantity;
+      const { id, name, price, quantity } = action.payload;
+      const existingItem = state.products.find(item => item.id === id);
+      if (existingItem) {
+        existingItem.quantity += quantity;
       } else {
-        state.products.push(action.payload);
+        state.products.push({ id, name, price, quantity });
       }
-    },
-    increaseQuantity: (state, action) => {
-      const item = state.products.find(
-        (item) => item._id === action.payload._id
-      );
-      if (item) {
-        item.quantity++;
-      }
-    },
-    drecreaseQuantity: (state, action) => {
-      const item = state.products.find(
-        (item) => item._id === action.payload._id
-      );
-      if (item.quantity === 1) {
-        item.quantity = 1;
-      } else {
-        item.quantity--;
-      }
-    },
-    deleteItem: (state, action) => {
-      state.products = state.products.filter(
-        (item) => item._id !== action.payload
-      );
     },
     resetCart: (state) => {
       state.products = [];
     },
+    deleteItem: (state, action) => {
+      const { id } = action.payload;
+      state.products = state.products.filter(item => item.id !== id);
+    },
+    decreaseQuantity: (state, action) => {
+      const { id } = action.payload;
+      const item = state.products.find(item => item.id === id);
+      if (item && item.quantity > 1) {
+        item.quantity -= 1;
+      } else if (item) {
+        state.products = state.products.filter(item => item.id !== id);
+      }
+    },
+    increaseQuantity: (state, action) => {
+      const { id } = action.payload;
+      const item = state.products.find(item => item.id === id);
+      if (item) {
+        item.quantity += 1;
+      }
+    },
   },
 });
 
-export const {
-  addToCart,
-  increaseQuantity,
-  drecreaseQuantity,
-  deleteItem,
-  resetCart,
-} = orebiSlice.actions;
+export const { addToCart, resetCart, deleteItem, decreaseQuantity, increaseQuantity } = orebiSlice.actions;
+
 export default orebiSlice.reducer;

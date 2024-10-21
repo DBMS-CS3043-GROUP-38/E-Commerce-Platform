@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { addToCart } from '../../redux/orebiSlice'; // Import the addToCart action
 import Breadcrumbs from '../../components/pageProps/Breadcrumbs';
 import ShopSideNav from '../../components/pageProps/shopPage/ShopSideNav';
 import ProductBanner from '../../components/pageProps/shopPage/ProductBanner';
-import Pagination from '../../components/pageProps/shopPage/Pagination'; // Make sure this path is correct
+import Pagination from '../../components/pageProps/shopPage/Pagination';
 import './ProductPage.css'; // Importing shared CSS file
 
 // Import images for fashion items
@@ -21,8 +23,9 @@ const Fashion = () => {
     const [quantities, setQuantities] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(6); // You can adjust the number of items per page here
+    const [itemsPerPage, setItemsPerPage] = useState(6); // Adjust the number of items per page
 
+    const dispatch = useDispatch(); // Use dispatch from Redux
     const navigate = useNavigate();
 
     // Define the fashion items here
@@ -46,18 +49,8 @@ const Fashion = () => {
     };
 
     const handleAddToCart = (item) => {
-        const quantity = quantities[item.id] || 1;
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-        const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
-
-        if (existingItemIndex !== -1) {
-            cart[existingItemIndex].quantity += quantity;
-        } else {
-            cart.push({ ...item, quantity });
-        }
-
-        localStorage.setItem('cart', JSON.stringify(cart));
+        const quantity = quantities[item.id] || 1; // Default to 1 if no quantity specified
+        dispatch(addToCart({ id: item.id, name: item.name, price: item.price, quantity })); // Dispatch addToCart action
         setSuccessMessage(`Added ${item.name} to cart successfully!`);
         setTimeout(() => setSuccessMessage(''), 3000);
     };

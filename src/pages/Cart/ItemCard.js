@@ -6,7 +6,7 @@ import {
   deleteItem,
   decreaseQuantity, // Corrected from 'drecreaseQuantity'
   increaseQuantity,
-} from "../../redux/orebiSlice";
+} from "../../redux/fluxoraSlice";
 
 const ItemCard = ({ item }) => {
   const dispatch = useDispatch();

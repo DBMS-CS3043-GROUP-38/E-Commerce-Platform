@@ -27,19 +27,20 @@ const Category = () => {
       icons: true,
     },
     {
-      _id: 1004,
-      title: "Sports",
-      path: "/sports", // Path to navigate to
-    },
-    {
-      _id: 1005,
-      title: "Toys",
-      path: "/toys", // Path to navigate to
-    },
-    {
+      
       _id: 1006,
       title: "Furniture",
       path: "/furniture", // Path to navigate to
+    },
+    {
+      _id: 1005,
+      title: "Electronics",
+      path: "/Electronics", // Path to navigate to
+    },
+    {
+      _id: 1004,
+      title: "Others",
+      path: "/Others", // Path to navigate to
     },
   ];
 

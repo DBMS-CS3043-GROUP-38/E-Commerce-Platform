@@ -6,6 +6,8 @@ import {
   Route,
   ScrollRestoration,
 } from "react-router-dom";
+
+
 import Footer from "./components/home/Footer/Footer";
 import FooterBottom from "./components/home/Footer/FooterBottom";
 import Header from "./components/home/Header/Header";
@@ -25,9 +27,13 @@ import Shop from "./pages/Shop/Shop";
 import Fashion from "./pages/Fashion/Fashion"; // Create separate components for each category
 import HomeAppliances from "./pages/HomeAppliances/HomeAppliances";
 import BeautyProducts from "./pages/BeautyProducts/BeautyProducts";
-import Sports from "./pages/Sports/Sport";
-import Toys from "./pages/Toys/Toys";
+import Others from "./pages/Others/Others";
+import Electronics from "./pages/Electronics/Electronics";
 import Furniture from "./pages/Furniture/Furniture";
+
+// Use CORS middleware
+
+
 const Layout = () => {
   return (
     <div>
@@ -45,12 +51,12 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/" element={<Layout />}>
-        {/* ==================== Header Navlink Start here =================
+         ==================== Header Navlink Start here =================
         
         <Route path="/about" element={<About />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/journal" element={<Journal />}></Route>
-         ==================== Header Navlink End here ===================== */}
+         ==================== Header Navlink End here ===================== 
          <Route index element={<Home />}></Route>
          <Route path="/shop" element={<Shop />}></Route>
         <Route path="/offer" element={<Offer />}></Route>
@@ -60,8 +66,8 @@ const router = createBrowserRouter(
         <Route path="/fashion" element={<Fashion />} />
             <Route path="/home-appliances" element={<HomeAppliances />} />
             <Route path="/beauty-products" element={<BeautyProducts />} />
-            <Route path="/sports" element={<Sports />} />
-            <Route path="/toys" element={<Toys />} />
+            <Route path="/Others" element={<Others />} />
+            <Route path="/electronics" element={<Electronics />} />
             <Route path="/furniture" element={<Furniture />} />
       </Route>
     {/*}  <Route path="/signup" element={<SignUp />}></Route>

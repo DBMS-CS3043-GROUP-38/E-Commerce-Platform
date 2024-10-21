@@ -6,9 +6,9 @@ import Price from "./shopBy/Price";
 const ShopSideNav = () => {
   return (
     <div className="w-full flex flex-col gap-6">
-      {/* Category button */}
+     
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-transparent text-white font-bold py-2 px-4 rounded hover:bg-white hover:text-black"
         onClick={() => console.log("Category clicked!")}
       >
         <Category icons={false} />
@@ -16,7 +16,7 @@ const ShopSideNav = () => {
 
       {/* Brand button */}
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-white text-white font-bold py-2 px-4 rounded hover:bg-white hover:text-black"
         onClick={() => console.log("Brand clicked!")}
       >
         <Brand />
@@ -24,7 +24,7 @@ const ShopSideNav = () => {
 
       {/* Price button */}
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-transparent text-white font-bold py-2 px-4 rounded hover:bg-white hover:text-black"
         onClick={() => console.log("Price clicked!")}
       >
         <Price />

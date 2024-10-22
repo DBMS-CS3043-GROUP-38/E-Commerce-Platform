@@ -27,7 +27,7 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="w-full h-20 bg-gradient-to-r from-purple-500 to-blue-500 sticky top-0 z-50 border-b-[1px] border-b-blue-200">
+    <div className="w-full h-20 bg-gradient-to-r from-blue-500 to-purple-500 sticky top-0 z-50 border-b-[1px] border-b-blue-200">
       <nav className="h-full px-4 max-w-container mx-auto relative">
         <Flex className="flex items-center justify-between h-full">
           <Link to="/">
@@ -69,7 +69,7 @@ const Header = () => {
                   transition={{ duration: 0.5 }}
                   className="w-[80%] h-full relative"
                 >
-                  <div className="w-full h-full bg-gradient-to-r from-purple-500 to-blue-500 p-6">
+                  <div className="w-full h-full bg-gradient-to-r from-blue-500 to-purple-500 p-6">
                     <img
                       className="w-28 mb-6"
                       src={logoLight}

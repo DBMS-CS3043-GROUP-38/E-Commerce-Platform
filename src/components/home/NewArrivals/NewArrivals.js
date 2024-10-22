@@ -10,6 +10,7 @@ import {
 } from "../../../assets/images/index";
 import SampleNextArrow from "./SampleNextArrow";
 import SamplePrevArrow from "./SamplePrevArrow";
+import "./NewArrival.css"; // Import the new CSS file
 
 const NewArrivals = () => {
   const settings = {
@@ -46,11 +47,12 @@ const NewArrivals = () => {
       },
     ],
   };
+
   return (
-    <div className="w-full pb-16">
-      <Heading heading="New Arrivals" />
+    <div className="new-arrivals-container">
+      <Heading heading="New Arrivals" className="new-arrivals-heading" />
       <Slider {...settings}>
-        <div className="px-2">
+        <div className="new-arrivals-product">
           <Product
             _id="100001"
             img={newArrOne}
@@ -61,7 +63,7 @@ const NewArrivals = () => {
             des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
           />
         </div>
-        <div className="px-2">
+        <div className="new-arrivals-product">
           <Product
             _id="100002"
             img={newArrTwo}
@@ -72,33 +74,33 @@ const NewArrivals = () => {
             des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
           />
         </div>
-        <div className="px-2">
+        <div className="new-arrivals-product">
           <Product
             _id="100003"
             img={newArrThree}
-            productName="cloth Basket"
+            productName="Cloth Basket"
             price="80.00"
             color="Mixed"
             badge={true}
             des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
           />
         </div>
-        <div className="px-2">
+        <div className="new-arrivals-product">
           <Product
             _id="100004"
             img={newArrFour}
-            productName="Funny toys for babies"
+            productName="Funny Toys for Babies"
             price="60.00"
             color="Mixed"
             badge={false}
             des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
           />
         </div>
-        <div className="px-2">
+        <div className="new-arrivals-product">
           <Product
             _id="100005"
             img={newArrTwo}
-            productName="Funny toys for babies"
+            productName="Funny Toys for Babies"
             price="60.00"
             color="Mixed"
             badge={false}

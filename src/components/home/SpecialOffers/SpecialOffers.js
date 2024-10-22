@@ -7,18 +7,19 @@ import {
   spfThree,
   spfFour,
 } from "../../../assets/images/index";
+import "./SpecialOffers.css"; // Import the CSS file
 
 const SpecialOffers = () => {
   return (
-    <div className="w-full pb-20">
-      <Heading heading="Special Offers" />
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-4 gap-10">
+    <div className="special-offers-container">
+      <Heading heading="Special Offers" className="special-offers-heading" />
+      <div className="special-offers-grid">
         <Product
           _id="1101"
           img={spfOne}
           productName="Cap for Boys"
           price="35.00"
-          color="Blank and White"
+          color="Black and White"
           badge={true}
           des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
         />

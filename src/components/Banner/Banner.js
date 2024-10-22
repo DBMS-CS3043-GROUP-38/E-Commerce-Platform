@@ -5,11 +5,13 @@ import {
   bannerImgOne,
   bannerImgTwo,
   bannerImgThree,
+  bannerImgFour,
+  bannerImgFive,
 } from "../../assets/images";
-import Image from "../designLayouts/Image";
+import "./Banner.css"; // Import the CSS file
 
 const Banner = () => {
-  const [dotActive, setDotActive] = useState(0); // Fixed typo: setDotActive
+  const [dotActive, setDotActive] = useState(0);
 
   const settings = {
     dots: true,
@@ -18,16 +20,16 @@ const Banner = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
-    beforeChange: (current, next) => {
+    beforeChange: (_, next) => {
       setDotActive(next);
     },
     appendDots: (dots) => (
       <div
         style={{
           position: "absolute",
-          top: "50%",
+          top: "10%",
           left: "7%",
-          transform: "translateY(-50%)",
+          transform: "translateY(-20%)",
         }}
       >
         <ul style={{ margin: "0px" }}> {dots} </ul>
@@ -103,33 +105,35 @@ const Banner = () => {
 
   return (
     <div className="w-full bg-white">
-      {/* 
-        Adjust the height of the banner by changing the height class below.
-        Example: h-64 (16rem), h-48 (12rem), h-32 (8rem), etc.
-      */}
-      <div className="relative h-66"> {/* <-- Change h-64 to desired height */}
+      <div className="banner-container">
         <Slider {...settings}>
-          {/* Slide 1 */}
           <Link to="/offer">
-            <div className="relative h-full">
-              <Image imgSrc={bannerImgOne} className="object-cover w-full h-full" />
-              {/* Text removed */}
+            <div>
+              <img src={bannerImgOne} alt="Slide 1" className="banner-image" />
             </div>
           </Link>
 
-          {/* Slide 2 */}
           <Link to="/offer">
-            <div className="relative h-full">
-              <Image imgSrc={bannerImgTwo} className="object-cover w-full h-full" />
-              {/* Text removed */}
+            <div>
+              <img src={bannerImgTwo} alt="Slide 2" className="banner-image" />
             </div>
           </Link>
 
-          {/* Slide 3 */}
           <Link to="/offer">
-            <div className="relative h-full">
-              <Image imgSrc={bannerImgThree} className="object-cover w-full h-full" />
-              {/* Text removed */}
+            <div>
+              <img src={bannerImgThree} alt="Slide 3" className="banner-image" />
+            </div>
+          </Link>
+
+          <Link to="/offer">
+            <div>
+              <img src={bannerImgFour} alt="Slide 4" className="banner-image" />
+            </div>
+          </Link>
+
+          <Link to="/offer">
+            <div>
+              <img src={bannerImgFive} alt="Slide 5" className="banner-image" />
             </div>
           </Link>
         </Slider>

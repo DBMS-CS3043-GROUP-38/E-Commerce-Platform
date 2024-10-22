@@ -32,6 +32,7 @@ import Others from "./pages/Others/Others";
 import Electronics from "./pages/Electronics/Electronics";
 import Furniture from "./pages/Furniture/Furniture";
 import PublicRoute from "./components/PublicRoute";
+import './App.css';
 
 // Import ProtectedRoute for JWT protection
 import ProtectedRoute from "./components/ProtectedRoutes";

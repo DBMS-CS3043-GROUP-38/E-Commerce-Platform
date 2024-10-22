@@ -6,10 +6,10 @@ body {
 
 /* Background image for the login page */
 .login-page {
-  background-image: url('/public/b1.png');
+  background-image: url('/public/b2.jpg');
   background-size: cover;
   background-position: center;
-  height: 130vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,6 +23,7 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
+  margin-top: -109px; /* Adjust this value as needed to move the container up */
 }
 
 .login-header {

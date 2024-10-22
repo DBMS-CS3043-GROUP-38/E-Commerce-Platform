@@ -1,18 +1,26 @@
-// server.mjs
-
 import express from 'express';
-import itemsRouter from './routes/users/customer/displayItems.mjs'; // Correct the path to displayItems.mjs
-import cors from 'cors';
+import dotenv from 'dotenv';
+import authRoutes from './routes/users/customer/auth.mjs';
+import db from './utilities/database/db.mjs';
+
+dotenv.config();
+
 const app = express();
-const port = 3000; // You can change this port if needed
-app.use(cors());
+const PORT = process.env.PORT || 3000;
+
 // Middleware
-app.use(express.json());
+app.use(express.json()); // To parse JSON requests
 
-// Use the items router
-app.use('/api', itemsRouter); // Prefix all routes in displayItems with /api
+// Routes
+app.use('/api', authRoutes);
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
+});
+
+// Handle database connection
+db.getConnection((err) => {
+    if (err) throw err;
+    console.log('Connected to the database.');
 });

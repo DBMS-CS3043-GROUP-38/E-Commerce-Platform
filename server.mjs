@@ -1,26 +1,20 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import authRoutes from './routes/users/customer/auth.mjs';
-import db from './utilities/database/db.mjs';
+import bodyParser from 'body-parser';
+import authRoutes from './routes/auth.mjs'; // Adjusted to point directly to the auth.mjs file
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.json()); // To parse JSON requests
+// Middleware to parse JSON bodies
+app.use(bodyParser.json());
 
-// Routes
-app.use('/api', authRoutes);
+// Use authentication routes
+app.use('/api/auth', authRoutes);
 
-// Start server
+// Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
-});
-
-// Handle database connection
-db.getConnection((err) => {
-    if (err) throw err;
-    console.log('Connected to the database.');
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

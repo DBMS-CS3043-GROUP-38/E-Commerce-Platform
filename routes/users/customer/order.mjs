@@ -5,7 +5,7 @@ const router = express.Router();
 
 // POST route to handle order submission using stored procedure
 router.post('/', async (req, res) => {
-  const { customerID, orderDate, deliveryDate, routeID, products } = req.body;
+  const { customerID, orderDate, routeID, products } = req.body;
 
   let connection; // Initialize connection variable here
 
@@ -15,14 +15,13 @@ router.post('/', async (req, res) => {
 
     // Call the stored procedure for inserting the order and products
     const [orderResult] = await connection.query(
-      `CALL CreateOrderWithItems(?, ?, ?, ?, ?, ?, ?)`,
+      `CALL CreateOrderWithItems(?, ?, ?, NULL, ?, ?, ?)`, // Delivery date is set to NULL
       [
         customerID,
-        0, // Initial Value (0) for the order
+        req.body.value, // Total order value
         orderDate,
-        deliveryDate,
         routeID,
-        0, // Initial TotalVolume (0) for the order
+        products.length, // Total volume, change if necessary
         JSON.stringify(products) // Pass the products array as a JSON string
       ]
     );

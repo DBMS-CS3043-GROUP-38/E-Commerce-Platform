@@ -1,0 +1,114 @@
+.cart-page {
+    max-width: 800px; /* Center and limit width */
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9; /* Light background for the cart */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 2rem;
+    color: #5e4b8a; /* Dark purple for the header */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cart-items {
+    margin-bottom: 20px;
+}
+
+.cart-item {
+    border: 1px solid #ddd; /* Light border for item cards */
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #ffffff; /* White background for items */
+    margin-bottom: 15px;
+    transition: box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cart-item:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Shadow effect on hover */
+}
+
+.cart-item h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #5e4b8a; /* Dark purple for item name */
+    margin-right: 20px;
+}
+
+.cart-item p {
+    margin: 5px 0;
+    color: #333; /* Darker text for item details */
+    margin-right: 20px;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-controls button {
+    background-color: #5e4b8a; /* Dark purple background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 5px;
+}
+
+.quantity-controls button:hover {
+    background-color: #47365a; /* Darker purple on hover */
+}
+
+.quantity-controls input {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 0 5px;
+}
+
+.buy-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #5e4b8a; /* Dark purple background */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.buy-button:hover {
+    background-color: #47365a; /* Darker purple on hover */
+    transform: scale(1.05); /* Slightly grow on hover */
+}
+
+.reset-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #ff4d4d; /* Light red for reset */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-bottom: 10px; /* Space between buttons */
+}
+
+.reset-button:hover {
+    background-color: #cc0000; /* Darker red on hover */
+    transform: scale(1.05); /* Slightly grow on hover */
+}

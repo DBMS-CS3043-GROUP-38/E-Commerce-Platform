@@ -1,115 +1,122 @@
-
-import { jwtDecode } from 'jwt-decode';// Correct import for jwt-decode
-
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-
-import { resetCart } from "../../redux/fluxoraSlice";
-import ItemCard from "./ItemCard";
+import React, { useState, useEffect } from 'react';
+import './Cart.css';
 
 const Cart = () => {
-  const dispatch = useDispatch();
-  const products = useSelector((state) => state.orebiReducer.products);
-  const [totalAmt, setTotalAmt] = useState(0);
-  const [shippingCharge, setShippingCharge] = useState(0);
-  const [selectedRoute, setSelectedRoute] = useState(1); // Default route set to 1
-  const totalVolume = products.length;
+    const [cartItems, setCartItems] = useState([]);
 
-  // Fetch available routes from the backend (optional)
-  const [routes, setRoutes] = useState([]);
+    useEffect(() => {
+        const savedCart = JSON.parse(localStorage.getItem('cart')) || []; // Load cart from local storage
+        setCartItems(savedCart);
+    }, []);
 
-  useEffect(() => {
-    // Call backend to fetch available routes
-    const fetchRoutes = async () => {
-      try {
-        const response = await axios.get("/api/routes"); // Assuming you have a route to fetch routes
-        setRoutes(response.data.routes); // Store fetched routes in state
-      } catch (error) {
-        console.error("Error fetching routes", error);
-      }
+    const handleBuy = async () => {
+        const customerID = 1; // Example customerID, set dynamically based on your logic
+        const orderDate = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format for MySQL
+        const routeID = 1; // Example routeID, update according to your logic
+        const totalValue = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0); // Calculate total value
+
+        const products = cartItems.map(item => ({
+            ProductID: item.id,
+            Amount: item.quantity,
+        }));
+
+        const orderData = {
+            customerID,
+            orderDate,
+            routeID,
+            value: totalValue, // Total order value
+            products,
+        };
+
+        try {
+            const response = await fetch('http://localhost:3000/api/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                console.log('Order placed successfully:', result);
+                setCartItems([]); // Clear the cart after order is successful
+                localStorage.removeItem('cart'); // Clear cart from local storage
+            } else {
+                console.error('Error placing order:', result.message);
+            }
+        } catch (error) {
+            console.error('Error placing order:', error);
+        }
     };
 
-    fetchRoutes();
-  }, []);
+    const handleRemoveItem = (itemId) => {
+        const updatedCart = cartItems.filter(item => item.id !== itemId);
+        setCartItems(updatedCart);
+        localStorage.setItem('cart', JSON.stringify(updatedCart)); // Update local storage
+    };
 
-  const submitOrder = async (customerID, routeID, totalVolume, products) => {
-    try {
-      const orderDate = new Date().toISOString().split("T")[0];
-      const response = await axios.post("/api/order", {
-        customerID,
-        value: products.reduce(
-          (total, product) => total + product.price * product.quantity,
-          0
-        ),
-        orderDate,
-        routeID, // Now passing the selected route ID
-        totalVolume,
-        products: products.map((product) => ({
-          ProductID: product._id,
-          Amount: product.quantity,
-        })),
-      });
-      console.log("Order Submitted:", response.data);
-    } catch (error) {
-      console.error("Error submitting order:", error);
-    }
-  };
+    const handleResetCart = () => {
+        setCartItems([]);
+        localStorage.removeItem('cart'); // Clear cart from local storage
+    };
 
-  useEffect(() => {
-    let price = 0;
-    products.forEach((item) => {
-      price += item.price * item.quantity;
-    });
-    setTotalAmt(price);
-  }, [products]);
+    const handleIncreaseQuantity = (itemId) => {
+        const updatedCart = cartItems.map(item => {
+            if (item.id === itemId) {
+                return { ...item, quantity: item.quantity + 1 }; // Increase quantity
+            }
+            return item;
+        });
+        setCartItems(updatedCart);
+        localStorage.setItem('cart', JSON.stringify(updatedCart)); // Update local storage
+    };
 
-  const getCustomerID = () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decoded = jwtDecode(token);
-      return decoded.CustomerID;
-    }
-    return null;
-  };
+    const handleDecreaseQuantity = (itemId) => {
+        const updatedCart = cartItems.map(item => {
+            if (item.id === itemId) {
+                const newQuantity = item.quantity > 1 ? item.quantity - 1 : 1; // Decrease quantity, minimum 1
+                return { ...item, quantity: newQuantity };
+            }
+            return item;
+        });
+        setCartItems(updatedCart);
+        localStorage.setItem('cart', JSON.stringify(updatedCart)); // Update local storage
+    };
 
-  const handleOrderSubmit = async () => {
-    const customerID = getCustomerID();
-    if (customerID && products.length > 0) {
-      await submitOrder(customerID, selectedRoute, totalVolume, products); // Passing the selected route
-      dispatch(resetCart());
-    } else {
-      console.error("CustomerID not found or cart is empty");
-    }
-  };
-
-  return (
-    <div className="max-w-container mx-auto px-4">
-      <h2>Select Route:</h2>
-      <select
-        value={selectedRoute}
-        onChange={(e) => setSelectedRoute(e.target.value)}
-      >
-        {routes.map((route) => (
-          <option key={route.routeID} value={route.routeID}>
-            {route.routeName} {/* Display the route name */}
-          </option>
-        ))}
-      </select>
-
-      {products.length > 0 ? (
-        <div className="pb-20">
-          {products.map((item) => (
-            <ItemCard key={item._id} item={item} />
-          ))}
-
-          <button onClick={handleOrderSubmit}>Submit Order</button>
+    return (
+        <div className="cart-page">
+            <h1>Your Cart</h1>
+            <div className="cart-items">
+                {cartItems.length > 0 ? (
+                    cartItems.map((item) => (
+                        <div key={item.id} className="cart-item">
+                            <h3>{item.name}</h3>
+                            <p>Price: ${item.price}</p>
+                            <div className="quantity-controls">
+                                <button onClick={() => handleDecreaseQuantity(item.id)}>-</button>
+                                <span>{item.quantity}</span>
+                                <button onClick={() => handleIncreaseQuantity(item.id)}>+</button>
+                            </div>
+                            <button onClick={() => handleRemoveItem(item.id)}>Remove</button>
+                        </div>
+                    ))
+                ) : (
+                    <p>Your cart is empty.</p>
+                )}
+            </div>
+            {cartItems.length > 0 && (
+                <div>
+                    <button onClick={handleResetCart} className="reset-button">
+                        Reset Cart
+                    </button>
+                    <button onClick={handleBuy} className="buy-button">
+                        Buy Now
+                    </button>
+                </div>
+            )}
         </div>
-      ) : (
-        <p>Your cart is empty.</p>
-      )}
-    </div>
-  );
+    );
 };
 
 export default Cart;

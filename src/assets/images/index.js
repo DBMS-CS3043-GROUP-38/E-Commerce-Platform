@@ -1,4 +1,4 @@
-import logo from "./fluxoraLogo.png";
+import logo from "./fluxoraLogo.svg";
 import logoLight from "./logoLight.png";
 import bannerImgOne from "./banner/bannerImgOne.jpg";
 import bannerImgTwo from "./banner/bannerImgTwo.jpg";

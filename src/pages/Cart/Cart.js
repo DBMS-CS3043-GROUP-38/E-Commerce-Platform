@@ -1,16 +1,38 @@
 import React, { useState, useEffect } from 'react';
+import {jwtDecode} from 'jwt-decode'; // Ensure you have this package installed
 import './Cart.css';
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
-        const savedCart = JSON.parse(localStorage.getItem('cart')) || []; // Load cart from local storage
+        // Load cart from local storage
+        const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
         setCartItems(savedCart);
     }, []);
 
+    // Function to get customer ID and username from the JWT token
+    const getUserDetails = () => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const decoded = jwtDecode(token); // Decode the token
+                return { customerId: decoded.userId, username: decoded.Username }; // Return both ID and Username
+            } catch (error) {
+                console.error('Invalid token:', error);
+                return null; // Return null if token is invalid
+            }
+        }
+        return null; // Return null if no token is found
+    };
+
     const handleBuy = async () => {
-        const customerID = 1; // Example customerID, set dynamically based on your logic
+        const userDetails = getUserDetails(); // Get user details from the token
+        if (!userDetails) {
+            alert("No user found. User must be logged in.");
+            return; // Prevent further action if user details are not found
+        }
+
         const orderDate = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format for MySQL
         const routeID = 1; // Example routeID, update according to your logic
         const totalValue = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0); // Calculate total value
@@ -21,7 +43,8 @@ const Cart = () => {
         }));
 
         const orderData = {
-            customerID,
+            customerID: userDetails.customerId, // Use customer ID
+            username: userDetails.username, // Use username for order
             orderDate,
             routeID,
             value: totalValue, // Total order value
@@ -50,21 +73,24 @@ const Cart = () => {
         }
     };
 
-    const handleRemoveItem = (itemId) => {
-        const updatedCart = cartItems.filter(item => item.id !== itemId);
+    // Function to remove an item from the cart
+    const handleRemoveItem = (id) => {
+        const updatedCart = cartItems.filter(item => item.id !== id);
         setCartItems(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart)); // Update local storage
     };
 
+    // Function to reset the cart
     const handleResetCart = () => {
         setCartItems([]);
-        localStorage.removeItem('cart'); // Clear cart from local storage
+        localStorage.removeItem('cart'); // Clear local storage
     };
 
-    const handleIncreaseQuantity = (itemId) => {
+    // Function to increase quantity of an item
+    const handleIncreaseQuantity = (id) => {
         const updatedCart = cartItems.map(item => {
-            if (item.id === itemId) {
-                return { ...item, quantity: item.quantity + 1 }; // Increase quantity
+            if (item.id === id) {
+                return { ...item, quantity: item.quantity + 1 };
             }
             return item;
         });
@@ -72,11 +98,11 @@ const Cart = () => {
         localStorage.setItem('cart', JSON.stringify(updatedCart)); // Update local storage
     };
 
-    const handleDecreaseQuantity = (itemId) => {
+    // Function to decrease quantity of an item
+    const handleDecreaseQuantity = (id) => {
         const updatedCart = cartItems.map(item => {
-            if (item.id === itemId) {
-                const newQuantity = item.quantity > 1 ? item.quantity - 1 : 1; // Decrease quantity, minimum 1
-                return { ...item, quantity: newQuantity };
+            if (item.id === id && item.quantity > 1) {
+                return { ...item, quantity: item.quantity - 1 };
             }
             return item;
         });
@@ -93,11 +119,9 @@ const Cart = () => {
                         <div key={item.id} className="cart-item">
                             <h3>{item.name}</h3>
                             <p>Price: ${item.price}</p>
-                            <div className="quantity-controls">
-                                <button onClick={() => handleDecreaseQuantity(item.id)}>-</button>
-                                <span>{item.quantity}</span>
-                                <button onClick={() => handleIncreaseQuantity(item.id)}>+</button>
-                            </div>
+                            <p>Quantity: {item.quantity}</p>
+                            <button onClick={() => handleIncreaseQuantity(item.id)}>+</button>
+                            <button onClick={() => handleDecreaseQuantity(item.id)}>-</button>
                             <button onClick={() => handleRemoveItem(item.id)}>Remove</button>
                         </div>
                     ))
@@ -105,16 +129,11 @@ const Cart = () => {
                     <p>Your cart is empty.</p>
                 )}
             </div>
-            {cartItems.length > 0 && (
-                <div>
-                    <button onClick={handleResetCart} className="reset-button">
-                        Reset Cart
-                    </button>
-                    <button onClick={handleBuy} className="buy-button">
-                        Buy Now
-                    </button>
-                </div>
-            )}
+            <div className="cart-actions">
+                <h2>Total: ${cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)}</h2>
+                <button onClick={handleBuy} disabled={cartItems.length === 0}>Place Order</button>
+                <button onClick={handleResetCart}>Reset Cart</button>
+            </div>
         </div>
     );
 };

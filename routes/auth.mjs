@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt';
 import pool from '../utilities/database/db.mjs'; // Adjust the path to your db.mjs file
 import dotenv from 'dotenv';
 
-
 dotenv.config();
 const router = express.Router();
 
@@ -28,7 +27,6 @@ router.post('/signup', async (req, res) => {
 
 // Login Route
 router.post('/login', async (req, res) => {
-    console.log(req.body);
     const { Username, Password } = req.body;
 
     try {
@@ -39,7 +37,8 @@ router.post('/login', async (req, res) => {
         const isPasswordValid = await bcrypt.compare(Password, user.PasswordHash);
         if (!isPasswordValid) return res.status(400).json({ message: 'Invalid credentials' });
 
-        const token = jwt.sign({ userId: user.id, Username: user.Username }, JWT_SECRET, { expiresIn: '1h' });
+        // Create JWT token including Username
+        const token = jwt.sign({ userId: user.CustomerID, Username: user.Username }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.status(200).json({ message: 'Login successful', token });
     } catch (error) {
         res.status(500).json({ message: 'Error during login', error });

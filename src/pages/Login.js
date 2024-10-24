@@ -1,4 +1,3 @@
-// Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css'; // Import your CSS file
@@ -42,64 +41,54 @@ export default function Login() {
     } finally {
       setLoading(false); // Stop loading
     }
-  };
+  }
 
-return (
-    <div className="login-page"> {/* Apply the background image */}
-        <div className="login-container"> {/* Apply border and shadow */}
-            <h2 className="login-header">Login to your account</h2>
+  return (
+    <div className="login-page">
+      <div className="login-container">
+        <h2 className="login-header">Login to your account</h2>
 
-            <form onSubmit={handleSubmit} className="login-form">
-                <div>
-                    <label htmlFor="username" className="login-label">
-                        Username
-                    </label>
-                    <input
-                        id="username"
-                        name="Username"
-                        type="text"
-                        placeholder="Username"
-                        value={credentials.Username}
-                        onChange={handleChange}
-                        required
-                        className="login-input"
-                    />
-                </div>
+        <form onSubmit={handleSubmit} className="login-form">
+          <div>
+            <label htmlFor="username" className="login-label">Username</label>
+            <input
+              id="username"
+              name="Username"
+              type="text"
+              placeholder="Username"
+              value={credentials.Username}
+              onChange={handleChange}
+              required
+              className="login-input"
+            />
+          </div>
 
-                <div>
-                    <label htmlFor="password" className="login-label">
-                        Password
-                    </label>
-                    <input
-                        id="password"
-                        name="Password"
-                        type="password"
-                        placeholder="Password"
-                        value={credentials.Password}
-                        onChange={handleChange}
-                        required
-                        className="login-input"
-                    />
-                </div>
+          <div>
+            <label htmlFor="password" className="login-label">Password</label>
+            <input
+              id="password"
+              name="Password"
+              type="password"
+              placeholder="Password"
+              value={credentials.Password}
+              onChange={handleChange}
+              required
+              className="login-input"
+            />
+          </div>
 
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="login-button"
-                >
-                    {loading ? 'Logging in...' : 'Login'}
-                </button>
+          <button type="submit" disabled={loading} className="login-button">
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
 
-                {message && <p className="login-message">{message}</p>}
-            </form>
+          {message && <p className="login-message">{message}</p>}
+        </form>
 
-            <p className="login-footer">
-                Not a member?{' '}
-                <a href="#" className="login-link">
-                    Start a 14-day free trial
-                </a>
-            </p>
-        </div>
+        <p className="login-footer">
+          Not a member?{' '}
+          <a href="#" className="login-link">Start a 14-day free trial</a>
+        </p>
+      </div>
     </div>
-);
+  );
 }

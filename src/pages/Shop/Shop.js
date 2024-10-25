@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
-import Pagination from "../../components/pageProps/shopPage/Pagination";
 import ProductBanner from "../../components/pageProps/shopPage/ProductBanner";
 import ShopSideNav from "../../components/pageProps/shopPage/ShopSideNav";
 import './Shop.css'; // Import the CSS file for the Shop component

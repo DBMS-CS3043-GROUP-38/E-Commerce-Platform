@@ -33,7 +33,7 @@ const Cart = () => {
 
         const orderDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
         const routeID = 1;
-        const totalValue = (cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0));
+       // const totalValue = (cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0));
 
         const products = cartItems.map(item => ({
             ProductID: item.id,

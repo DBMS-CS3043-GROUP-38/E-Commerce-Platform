@@ -35,7 +35,7 @@ const Cart = () => {
 
         const orderDate = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format for MySQL
         const routeID = 1; // Example routeID, update according to your logic
-        const totalValue = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0); // Calculate total value
+        const totalValue = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0); // Calculate total value
 
         const products = cartItems.map(item => ({
             ProductID: item.id,
@@ -90,7 +90,7 @@ const Cart = () => {
     const handleIncreaseQuantity = (id) => {
         const updatedCart = cartItems.map(item => {
             if (item.id === id) {
-                return { ...item, quantity: item.quantity + 1 };
+                return { ...item, quantity: item.quantity + 1  };
             }
             return item;
         });

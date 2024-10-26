@@ -615,7 +615,7 @@ END;
 DELIMITER ;
 
 
-
+-----------------------------------Procedures-------------------------------------
 
 
 -- Stored Procedures new ones here
@@ -669,19 +669,17 @@ END$$
 
 DELIMITER ;
 
+-- Stored Procedure to get routes by city
 
--- cities
 DELIMITER //
-
-CREATE PROCEDURE GetUniqueCities()
+CREATE PROCEDURE GetRoutesByCity(IN cityName VARCHAR(255))
 BEGIN
-    SELECT DISTINCT City FROM store;
+    SELECT RouteID, Description 
+    FROM route 
+    LEFT JOIN store USING (StoreID) 
+    WHERE City = cityName;
 END //
-
 DELIMITER ;
-
-
-
 
 
 

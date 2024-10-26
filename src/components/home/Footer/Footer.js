@@ -4,6 +4,7 @@ import { FaFacebook, FaYoutube, FaLinkedin, FaGithub } from "react-icons/fa";
 import FooterListTitle from "./FooterListTitle";
 import { paymentCard } from "../../../assets/images";
 import Image from "../../designLayouts/Image";
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const [emailInfo, setEmailInfo] = useState("");
@@ -82,19 +83,19 @@ const Footer = () => {
           <FooterListTitle title="Shop" />
           <ul className="flex flex-col gap-2">
             <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Accesories
+              <a href="/fashion">Clothes</a>
             </li>
             <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Clothes
+              <a href="/home-appliances">Home Appliances</a>
             </li>
             <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Electronics
+              <a href="/electronics">Electronics</a>
             </li>
             <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Home appliances
+              <a href="/beauty-products">Beauty Products</a>
             </li>
             <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              New Arrivals
+              <a href="/others">Others</a>
             </li>
           </ul>
         </div>
@@ -102,19 +103,19 @@ const Footer = () => {
           <FooterListTitle title="Your account" />
           <ul className="flex flex-col gap-2">
             <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Profile
+            <a href="/profile">Profile</a>
             </li>
             <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Orders
+              <a href="/account/orders">Orders</a>
             </li>
             <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Addresses
+              <a href="/account/addresses">Addresses</a>
             </li>
             <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Account Details
+              <a href="/account/details">Account Details</a>
             </li>
             <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Payment Options
+              <a href="/account/payment-options">Payment Options</a>
             </li>
           </ul>
         </div>
@@ -139,7 +140,7 @@ const Footer = () => {
                   <input
                     onChange={(e) => setEmailInfo(e.target.value)}
                     value={emailInfo}
-                    className="w-full h-12 border-b border-black -400 bg-transparent px-4 text-black -600 text-lg placeholder:text-base outline-none"
+                    className="w-full h-12 border-b border-black bg-transparent px-4 text-black text-lg placeholder:text-base outline-none"
                     type="text"
                     placeholder="Insert your email ...*"
                   />

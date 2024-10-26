@@ -33,7 +33,7 @@ import Electronics from "./pages/Electronics/Electronics";
 import Furniture from "./pages/Furniture/Furniture";
 import PublicRoute from "./components/PublicRoute";
 import './App.css';
-
+import Profile from './pages/Profile/Profile';
 // Import ProtectedRoute for JWT protection
 import ProtectedRoute from "./components/ProtectedRoutes";
 
@@ -97,6 +97,7 @@ const router = createBrowserRouter(
               <Route path="/others" element={<Others />} />
               <Route path="/electronics" element={<Electronics />} />
               <Route path="/furniture" element={<Furniture />} />
+              <Route path="/profile" component={<Profile/>} />
           </Route>
 
           {/* Redirect to login if no route matches */}

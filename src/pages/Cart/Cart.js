@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import the toast styles
+import 'react-toastify/dist/ReactToastify.css'; 
 import './Cart.css';
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
+    const [cities, setCities] = useState([]);
+    const [selectedCity, setSelectedCity] = useState('');
+    const [routes, setRoutes] = useState([]);
+    const [selectedRoute, setSelectedRoute] = useState(null);
 
     useEffect(() => {
         const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
         setCartItems(savedCart);
+    }, []);
+
+    useEffect(() => {
+        // Fetch cities when component loads
+        fetch('http://localhost:3000/api/cities')
+            .then(response => response.json())
+            .then(data => setCities(data))
+            .catch(error => console.error('Error fetching cities:', error));
     }, []);
 
     const getUserDetails = () => {
@@ -26,6 +38,26 @@ const Cart = () => {
         return null;
     };
 
+    const handleCitySelect = async (city) => {
+        setSelectedCity(city);
+        setRoutes([]); // Clear previous routes
+        setSelectedRoute(null); // Reset selected route
+
+        try {
+            const response = await fetch(`http://localhost:3000/api/getroutes?city=${city}`);
+            const data = await response.json();
+            setRoutes(data);
+        } catch (error) {
+            console.error('Error fetching routes:', error);
+            toast.error("Error fetching routes.");
+        }
+    };
+
+    const handleRouteSelect = (routeID) => {
+        setSelectedRoute(routeID);
+        toast.info(`Route ID ${routeID} selected.`);
+    };
+
     const handleBuy = async () => {
         const userDetails = getUserDetails();
         if (!userDetails) {
@@ -33,9 +65,12 @@ const Cart = () => {
             return;
         }
 
-        const orderDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
-        const routeID = 1;
+        if (!selectedRoute) {
+            toast.error("Please select a route.");
+            return;
+        }
 
+        const orderDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
         const products = cartItems.map(item => ({
             ProductID: item.id,
             Amount: item.quantity,
@@ -44,8 +79,8 @@ const Cart = () => {
         const orderData = {
             customerID: userDetails.customerId,
             orderDate,
-            routeID,
-            value: 0,
+            routeID: selectedRoute,
+            value: 0, // You may want to calculate the total value based on the cart items
             products,
         };
 
@@ -63,14 +98,14 @@ const Cart = () => {
                 console.log('Order placed successfully:', result);
                 setCartItems([]);
                 localStorage.removeItem('cart');
-                toast.success("Order placed successfully!"); // Notify on successful order
+                toast.success("Order placed successfully!");
             } else {
                 console.error('Error placing order:', result.message);
-                toast.error(result.message); // Show error message
+                toast.error(result.message);
             }
         } catch (error) {
             console.error('Error placing order:', error);
-            toast.error("Error placing order."); // Notify error
+            toast.error("Error placing order.");
         }
     };
 
@@ -78,13 +113,13 @@ const Cart = () => {
         const updatedCart = cartItems.filter(item => item.id !== id);
         setCartItems(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart));
-        toast.info("Item removed from cart."); // Notify on item removal
+        toast.info("Item removed from cart.");
     };
 
     const handleResetCart = () => {
         setCartItems([]);
         localStorage.removeItem('cart');
-        toast.info("Cart has been reset."); // Notify on cart reset
+        toast.info("Cart has been reset.");
     };
 
     const handleIncreaseQuantity = (id) => {
@@ -96,7 +131,6 @@ const Cart = () => {
         });
         setCartItems(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart));
-       
     };
 
     const handleDecreaseQuantity = (id) => {
@@ -108,13 +142,38 @@ const Cart = () => {
         });
         setCartItems(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart));
-        
     };
 
     return (
         <div className="cart-page">
-            <ToastContainer /> {/* Include ToastContainer */}
+            <ToastContainer />
             <h1>Your Cart</h1>
+            
+            <div>
+                <label htmlFor="city-select">Select City:</label>
+                <select id="city-select" value={selectedCity} onChange={(e) => handleCitySelect(e.target.value)}>
+                    <option value="">Choose a city</option>
+                    {cities.map(city => (
+                        <option key={city.City} value={city.City}>{city.City}</option>
+                    ))}
+                </select>
+            </div>
+
+            {selectedCity && routes.length > 0 && (
+                <div>
+                    <h3>Available Routes:</h3>
+                    <ul>
+                        {routes.map(route => (
+                            <li key={route.RouteID}>
+                                <button onClick={() => handleRouteSelect(route.RouteID)}>
+                                    {`Route ${route.RouteID}: ${route.Description}`}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
             <div className="cart-items">
                 {cartItems.length > 0 ? (
                     cartItems.map((item) => (
@@ -131,6 +190,7 @@ const Cart = () => {
                     <p>Your cart is empty.</p>
                 )}
             </div>
+
             <div className="cart-actions">
                 <h2>Total: ${cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0)}</h2>
                 <button onClick={handleBuy} disabled={cartItems.length === 0}>Place Order</button>

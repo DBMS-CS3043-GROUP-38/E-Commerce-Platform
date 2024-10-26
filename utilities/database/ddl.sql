@@ -618,7 +618,7 @@ DELIMITER ;
 
 
 
-# Stored Procedures new ones here
+-- Stored Procedures new ones here
 DELIMITER $$
 
 CREATE PROCEDURE CreateOrderWithItems (
@@ -670,7 +670,15 @@ END$$
 DELIMITER ;
 
 
+-- cities
+DELIMITER //
 
+CREATE PROCEDURE GetUniqueCities()
+BEGIN
+    SELECT DISTINCT City FROM store;
+END //
+
+DELIMITER ;
 
 
 

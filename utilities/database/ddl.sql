@@ -668,3 +668,18 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
+#indexes for the tables
+-- Create index on Username for faster lookup
+CREATE INDEX idx_username ON customer (Username);

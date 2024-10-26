@@ -1,12 +1,8 @@
-import React from "react";
+import React from 'react';
+import ProductPage from '../ProductPage/ProductPage';
 
-const BeautyProducts = () => {
-  return (
-    <div>
-      <h1>Beauty Products</h1>
-      <p>Explore our wide range of beauty products!</p>
-    </div>
-  );
+const Cosmetics = () => {
+    return <ProductPage category="Cosmetics" />;
 };
 
-export default BeautyProducts;
+export default Cosmetics;

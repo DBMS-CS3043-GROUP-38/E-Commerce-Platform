@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './ProductPage.css';
 
-const Fashion = () => {
+const ProductPage = ({ category }) => {
     const [products, setProducts] = useState([]);
     const [quantities, setQuantities] = useState({});
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/products/Type/Clothes');
+                const response = await fetch(`http://localhost:3000/api/products/Type/${category}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
@@ -20,7 +20,7 @@ const Fashion = () => {
         };
 
         fetchProducts();
-    }, []);
+    }, [category]);
 
     const handleAddToCart = (product) => {
         const quantity = quantities[product.ProductID] || 1; // Default to 1 if not set
@@ -45,13 +45,13 @@ const Fashion = () => {
     };
 
     return (
-        <div className="fashion-page">
-            <h1>Fashion Products</h1>
+        <div className="product-page">
+            <h1>{category} Products</h1>
             <div className="product-grid">
                 {products.length > 0 ? (
                     products.map((product) => (
                         <div key={product.ProductID} className="product-item">
-                            <img src={`/images/fashion/${product.Name}.png`} alt={product.Name} className="product-image" />
+                            <img src={`/images/${category.toLowerCase()}/${product.Name}.png`} alt={product.Name} className="product-image" />
                             <div className="product-info">
                                 <h3>{product.Name}</h3>
                                 <p>${product.Price}</p>
@@ -70,11 +70,11 @@ const Fashion = () => {
                         </div>
                     ))
                 ) : (
-                    <p>No fashion products available.</p>
+                    <p>No {category.toLowerCase()} products available.</p>
                 )}
             </div>
         </div>
     );
 };
 
-export default Fashion;
+export default ProductPage;

@@ -98,6 +98,9 @@ const Cart = () => {
                 console.log('Order placed successfully:', result);
                 setCartItems([]);
                 localStorage.removeItem('cart');
+                setSelectedCity(''); // Reset selected city
+                setRoutes([]); // Clear routes
+                setSelectedRoute(null); // Reset selected route
                 toast.success("Order placed successfully!");
             } else {
                 console.error('Error placing order:', result.message);
@@ -118,6 +121,9 @@ const Cart = () => {
 
     const handleResetCart = () => {
         setCartItems([]);
+        setSelectedCity(''); // Reset selected city
+        setRoutes([]); // Clear routes
+        setSelectedRoute(null); // Reset selected route
         localStorage.removeItem('cart');
         toast.info("Cart has been reset.");
     };

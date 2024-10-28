@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode'; // Import jwtDecode correctly
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 import './Cart.css';
+import api from '../../services/apiService';
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -18,10 +19,15 @@ const Cart = () => {
 
     useEffect(() => {
         // Fetch cities when component loads
-        fetch('http://localhost:3000/api/cities')
-            .then(response => response.json())
-            .then(data => setCities(data))
-            .catch(error => console.error('Error fetching cities:', error));
+        const fetchCities = async () => {
+            try {
+                const response = await api.get('/cities');
+                setCities(response.data);
+            } catch (error) {
+                console.error('Error fetching cities:', error);
+            }
+        };
+        fetchCities();
     }, []);
 
     const getUserDetails = () => {
@@ -29,6 +35,7 @@ const Cart = () => {
         if (token) {
             try {
                 const decoded = jwtDecode(token);
+                console.log('Decoded token:', decoded);
                 return { customerId: decoded.userId, username: decoded.Username };
             } catch (error) {
                 console.error('Invalid token:', error);
@@ -44,9 +51,8 @@ const Cart = () => {
         setSelectedRoute(null); // Reset selected route
 
         try {
-            const response = await fetch(`http://localhost:3000/api/getroutes?city=${city}`);
-            const data = await response.json();
-            setRoutes(data);
+            const response = await api.get(`/getroutes?city=${city}`);
+            setRoutes(response.data);
         } catch (error) {
             console.error('Error fetching routes:', error);
             toast.error("Error fetching routes.");
@@ -80,32 +86,19 @@ const Cart = () => {
             customerID: userDetails.customerId,
             orderDate,
             routeID: selectedRoute,
-            value: 0, // You may want to calculate the total value based on the cart items
+            value: cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0),
             products,
         };
 
         try {
-            const response = await fetch('http://localhost:3000/api/order', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(orderData),
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                console.log('Order placed successfully:', result);
-                setCartItems([]);
-                localStorage.removeItem('cart');
-                setSelectedCity(''); // Reset selected city
-                setRoutes([]); // Clear routes
-                setSelectedRoute(null); // Reset selected route
-                toast.success("Order placed successfully!");
-            } else {
-                console.error('Error placing order:', result.message);
-                toast.error(result.message);
-            }
+            const response = await api.post('/order', orderData);
+            console.log('Order placed successfully:', response.data);
+            setCartItems([]);
+            localStorage.removeItem('cart');
+            setSelectedCity(''); // Reset selected city
+            setRoutes([]); // Clear routes
+            setSelectedRoute(null); // Reset selected route
+            toast.success("Order placed successfully!");
         } catch (error) {
             console.error('Error placing order:', error);
             toast.error("Error placing order.");

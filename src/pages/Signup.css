@@ -1,10 +1,13 @@
 /* Signup Page Container */
 .signup-page {
+    background-image: url('/public/b2.jpg');
+    background-size: cover;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f4f4f9;
+    
 }
 
 /* Signup Container */

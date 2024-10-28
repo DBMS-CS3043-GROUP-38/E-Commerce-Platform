@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ProductPage.css';
+import api from '../../services/apiService';
 
 const ProductPage = ({ category }) => {
     const [products, setProducts] = useState([]);
@@ -8,12 +9,8 @@ const ProductPage = ({ category }) => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/products/Type/${category}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const data = await response.json();
-                setProducts(data);
+                const response = await api.get(`/products/Type/${category}`);
+                setProducts(response.data); // Set products from response data
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
@@ -63,7 +60,7 @@ const ProductPage = ({ category }) => {
                                     id={`quantity-${product.ProductID}`}
                                     value={quantities[product.ProductID] || 1}
                                     min="1"
-                                    onChange={(e) => handleQuantityChange(product.ProductID, e.target.value)}
+                                    onChange={(e) => handleQuantityChange(product.ProductID, parseInt(e.target.value))}
                                 />
                             </div>
                             <button onClick={() => handleAddToCart(product)}>Add to Cart</button>

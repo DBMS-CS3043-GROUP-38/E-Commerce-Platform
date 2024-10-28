@@ -102,7 +102,7 @@ const Footer = () => {
           <FooterListTitle title="Your account" />
           <ul className="flex flex-col gap-2">
             <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-            <a href="/profile">Profile</a>
+              <Link to="/profile">Profile</Link>
             </li>
             <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               <a href="/account/orders">Orders</a>

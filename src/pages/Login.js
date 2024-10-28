@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css'; // Import your CSS file
+import api from '../services/apiService'; // Import the API service
 
 export default function Login() {
   const [credentials, setCredentials] = useState({ Username: '', Password: '' });
@@ -19,21 +20,16 @@ export default function Login() {
     setMessage(''); // Clear previous messages
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
-      });
+      const response = await api.post('/auth/login', credentials); // Use Axios API instance
 
-      const data = await response.json();
-      if (response.ok && data.token) {
-        localStorage.setItem('token', data.token); // Store JWT token
+      if (response.status === 200 && response.data.token) {
+        localStorage.setItem('token', response.data.token); // Store JWT token
         setMessage('Login successful! Redirecting to home...'); // Show success message
         setTimeout(() => {
           navigate('/home'); // Redirect to home page after 1 second
         }, 1000);
       } else {
-        setMessage(data.message || 'Login failed.'); // Show error message
+        setMessage(response.data.message || 'Login failed.'); // Show error message
       }
     } catch (error) {
       setMessage('An error occurred during login. Please try again.');

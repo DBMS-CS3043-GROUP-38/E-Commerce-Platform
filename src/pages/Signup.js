@@ -1,6 +1,7 @@
 // Signup.js
 import React, { useState } from 'react';
-import './Signup.css'; // Import your CSS file
+import './Signup.css';
+import api from '../services/apiService';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -8,12 +9,12 @@ const Signup = () => {
     Name: '',
     Address: '',
     Contact: '',
-    Type: 'End', // Default value for the Type
+    Type: 'End',
     City: '',
     Password: '',
   });
-  const [message, setMessage] = useState(''); // State to handle success/error message
-  const [step, setStep] = useState(1); // State to handle the current step of the form
+  const [message, setMessage] = useState('');
+  const [step, setStep] = useState(1);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,16 +24,13 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-      setMessage(data.message);
-      if (response.ok) {
+      // Use the `api` service to make the request
+      const response = await api.post('/auth/signup', formData);
+      setMessage(response.data.message);
+
+      if (response.status === 200) {
         setTimeout(() => {
-          window.location.href = '/login'; // Redirect to login after 1 second
+          window.location.href = '/login';
         }, 1000);
       }
     } catch (error) {
@@ -41,10 +39,7 @@ const Signup = () => {
     }
   };
 
-  // Proceed to the next step
   const nextStep = () => setStep(step + 1);
-
-  // Go back to the previous step
   const prevStep = () => setStep(step - 1);
 
   return (

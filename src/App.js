@@ -97,7 +97,7 @@ const router = createBrowserRouter(
               <Route path="/others" element={<Others />} />
               <Route path="/electronics" element={<Electronics />} />
               <Route path="/furniture" element={<Furniture />} />
-              <Route path="/profile" component={<Profile/>} />
+              <Route path="/profile" element={<Profile/>} />
           </Route>
 
           {/* Redirect to login if no route matches */}

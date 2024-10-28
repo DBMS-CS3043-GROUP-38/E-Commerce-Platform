@@ -1,5 +1,6 @@
 // Profile.js (Frontend)
 import React, { useEffect, useState } from 'react';
+import api from '../../services/apiService';
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -7,25 +8,18 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchProfileData = async () => {
-      // Set customerID from local storage or use default value of 1
       const customerID = localStorage.getItem('customerID') || '1';
 
       try {
-        const response = await fetch(`/api/profile?customerID=${customerID}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        // Use `api` to make the request, automatically handling auth headers
+        const response = await api.get(`/profile`, {
+          params: { customerID },
         });
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch user data');
-        }
-
-        const data = await response.json();
-        setUserData(data);
+        setUserData(response.data);
       } catch (err) {
-        setError(err.message);
+        setError('Failed to fetch user data. Please try again.');
+        console.error('Error fetching profile:', err);
       }
     };
 
@@ -42,13 +36,13 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
+
       <h1>Profile</h1>
       <p>Username: {userData.Username}</p>
       <p>Name: {userData.Name}</p>
       <p>Address: {userData.Address}</p>
       <p>Contact: {userData.Contact}</p>
       <p>City: {userData.City}</p>
-      {/* Add more fields as necessary */}
     </div>
   );
 };

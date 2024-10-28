@@ -1,3 +1,4 @@
+// ContactUs.js
 import React, { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import './ContactUs.css';
@@ -8,6 +9,7 @@ import {
   Button,
   Typography,
   Snackbar,
+  Box,
 } from '@mui/material';
 
 export const ContactUs = () => {
@@ -22,13 +24,11 @@ export const ContactUs = () => {
       .sendForm('service_y5x22bg', 'template_qq3witv', form.current, 'VCA4mvrlwmPyWJ7Sy')
       .then(
         (result) => {
-          console.log('SUCCESS!', result.text);
           setSuccessMsg('Email sent successfully!');
           setErrorMsg('');
           form.current.reset();
         },
         (error) => {
-          console.error('FAILED...', error);
           setErrorMsg(`Failed to send email: ${error.text}`);
           setSuccessMsg('');
         }
@@ -36,45 +36,63 @@ export const ContactUs = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" gutterBottom>
-        Contact Us
-      </Typography>
-      <form ref={form} onSubmit={sendEmail}>
-        <TextField
-          label="Name"
-          name="user_name"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          required
-        />
-        <TextField
-          label="Email"
-          name="user_email"
-          type="email"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          required
-        />
-        <TextField
-          label="Message"
-          name="message"
-          variant="outlined"
-          multiline
-          rows={4}
-          fullWidth
-          margin="normal"
-          required
-        />
-        <Button variant="contained" color="primary" type="submit">
-          Send
-        </Button>
-      </form>
-      {successMsg && <Snackbar open={true} autoHideDuration={6000} message={successMsg} onClose={() => setSuccessMsg('')} />}
-      {errorMsg && <Snackbar open={true} autoHideDuration={6000} message={errorMsg} onClose={() => setErrorMsg('')} />}
-    </Container>
+    <div className="contact-page">
+      <Container maxWidth="sm" className="contact-us-container">
+        <Box>
+          <Typography variant="h4" gutterBottom align="center">
+            Contact Us
+          </Typography>
+          <form ref={form} onSubmit={sendEmail} className="contact-form">
+            <TextField
+              label="Name"
+              name="user_name"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
+              label="Email"
+              name="user_email"
+              type="email"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
+              label="Message"
+              name="message"
+              variant="outlined"
+              multiline
+              rows={4}
+              fullWidth
+              margin="normal"
+              required
+            />
+            <Button variant="contained" color="primary" type="submit" fullWidth className="submit-button">
+              Send
+            </Button>
+          </form>
+          {successMsg && (
+            <Snackbar
+              open={true}
+              autoHideDuration={6000}
+              message={successMsg}
+              onClose={() => setSuccessMsg('')}
+            />
+          )}
+          {errorMsg && (
+            <Snackbar
+              open={true}
+              autoHideDuration={6000}
+              message={errorMsg}
+              onClose={() => setErrorMsg('')}
+            />
+          )}
+        </Box>
+      </Container>
+    </div>
   );
 };
 

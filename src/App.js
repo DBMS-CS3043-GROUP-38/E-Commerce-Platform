@@ -30,7 +30,7 @@ import HomeAppliances from "./pages/HomeAppliances/HomeAppliances";
 import BeautyProducts from "./pages/BeautyProducts/BeautyProducts";
 import Others from "./pages/Others/Others";
 import Electronics from "./pages/Electronics/Electronics";
-import Furniture from "./pages/Furniture/Furniture";
+
 import PublicRoute from "./components/PublicRoute";
 import './App.css';
 import Profile from './pages/Profile/Profile';
@@ -96,7 +96,6 @@ const router = createBrowserRouter(
               <Route path="/beauty-products" element={<BeautyProducts />} />
               <Route path="/others" element={<Others />} />
               <Route path="/electronics" element={<Electronics />} />
-              <Route path="/furniture" element={<Furniture />} />
               <Route path="/profile" element={<Profile/>} />
           </Route>
 

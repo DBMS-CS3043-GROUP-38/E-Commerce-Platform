@@ -10,7 +10,7 @@ const Category = () => {
     { _id: 1001, title: "Fashion", path: "/fashion" },
     { _id: 1002, title: "Home Appliances", path: "/home-appliances" },
     { _id: 1003, title: "Beauty Products", path: "/beauty-products" },
-    { _id: 1006, title: "Furniture", path: "/furniture" },
+   
     { _id: 1005, title: "Electronics", path: "/electronics" },
     { _id: 1004, title: "Others", path: "/others" },
   ];

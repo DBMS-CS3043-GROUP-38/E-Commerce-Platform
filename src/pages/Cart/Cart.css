@@ -182,3 +182,35 @@
     background-color: #47365a;
     transform: scale(1.05);
 }
+
+
+.route-button {
+    background-color: hsl(258, 71%, 54%); /* Primary color */
+    color: #fff; /* Text color */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Full width within list item */
+    text-align: left; /* Align text to the left */
+}
+
+.route-button:hover {
+    background-color: #0056b3; /* Darker color on hover */
+}
+
+.route-button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus outline */
+}
+
+.route-list {
+    list-style: none; /* Remove bullet points */
+    padding: 0;
+    margin: 0;
+}
+
+.route-list li {
+    margin-bottom: 10px; /* Spacing between buttons */
+}

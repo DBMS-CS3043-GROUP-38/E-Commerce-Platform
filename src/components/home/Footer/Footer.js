@@ -81,7 +81,7 @@ const Footer = () => {
         <div>
           <FooterListTitle title="Shop" />
           <ul className="flex flex-col gap-2">
-            <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+            <li className="text-base w-full xl:w-[80%] hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               <a href="/fashion">Clothes</a>
             </li>
             <li className="font-titleFont text-base text-white hover:text-purple-600 hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">

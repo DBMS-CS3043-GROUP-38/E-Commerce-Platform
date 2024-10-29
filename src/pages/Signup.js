@@ -34,7 +34,7 @@ const Signup = () => {
         }, 1000);
       }
     } catch (error) {
-      setMessage('An error occurred during signup. Please try again.');
+      setMessage('An error occurred . Your Username Already used.');
       console.error('Error:', error);
     }
   };

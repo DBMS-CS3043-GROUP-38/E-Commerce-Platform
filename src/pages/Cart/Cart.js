@@ -205,7 +205,7 @@ const Cart = () => {
       <div className="cart-actions">
         <h2>
           Total: $
-          {cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)}
+          {cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2)}
         </h2>
         <button
           onClick={handleBuy}

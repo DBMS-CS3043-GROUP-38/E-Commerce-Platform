@@ -1,5 +1,5 @@
-// Signup.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Signup.css';
 import api from '../services/apiService';
 
@@ -15,6 +15,7 @@ const Signup = () => {
   });
   const [message, setMessage] = useState('');
   const [step, setStep] = useState(1);
+  const navigate = useNavigate(); // Use navigate instead of window.location.href
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,13 +29,13 @@ const Signup = () => {
       const response = await api.post('/auth/signup', formData);
       setMessage(response.data.message);
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         setTimeout(() => {
-          window.location.href = '/login';
-        }, 1000);
+          navigate('/login'); // Navigate to login page
+        }, 10);
       }
     } catch (error) {
-      setMessage('An error occurred . Your Username Already used.');
+      setMessage('An error occurred. Your Username is already used.');
       console.error('Error:', error);
     }
   };

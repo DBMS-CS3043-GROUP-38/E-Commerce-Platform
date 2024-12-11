@@ -1,70 +1,84 @@
-# Getting Started with Create React App
+# Customer Layout (React Application)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The **Customer Layout** is a React-based user interface designed for seamless customer interaction with the Supply Chain Management Platform. This lightweight front-end application enables customers to browse products, place orders, and track deliveries.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🛠 Setup Instructions
 
-### `npm start`
+### Prerequisites
+- Ensure **Node.js** and **npm** are installed on your machine.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Steps
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-### `npm test`
+2. **Start the Application**:
+   ```bash
+   npm start
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. **API Connectivity**:
+   - Firt make sure follow the guide on API repo [here](https://github.com/DBMS-CS3043-GROUP-38/SCMS-API) to setup the API server.
+   - Ensure the **API server** and the hosting machine for this application are on the same network.
+   - The application is configured to connect to the API server via the following code in `src\services\apiService.js`:
+     ```javascript
+     import axios from "axios";
 
-### `npm run build`
+     const BASE_URL = `http://${window.location.hostname}:3000/customer`;
+     ```
+   - If the API server runs on a different port or IP address, update this setting accordingly.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🔧 Troubleshooting
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### API Connection Issues
+- If the application cannot connect to the API server:
+  1. Verify that the API server is running.
+  2. Ensure the port and hostname in `src\services\apiService.js` are correct.
+  3. If the API and application are on different networks, adjust the **CORS settings** in the backend API to allow cross-origin requests.
 
-### `npm run eject`
+### CORS Adjustments (Backend)
+- Update the backend API CORS configuration to allow secure connections:
+  ```javascript
+  const cors = require("cors");
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  app.use(cors({
+      origin: '*', // Replace with specific origin(s) for better security in production
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      allowedHeaders: ['Content-Type', 'Authorization']
+  }));
+  ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🎨 User Interface Overview
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Login Page
+![Login Page](/images/Screenshot%202024-12-11%20165846.png)
 
-## Learn More
+### Sign-Up Page
+- New users can register using the Sign-Up page.
+![Sign-Up Page](/images/image.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Default Passwords
+- If dummy data is added during setup, the default password for all customers is:
+- Somehow need to check a username manually from the database
+  ```
+  Password@Customer
+  ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## 🧩 Contribution Guidelines
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+We welcome contributions to this React application. Please ensure you:
+- Follow React and JavaScript best practices.
+- Test your changes locally before submitting a pull request.
+- Document any new features or components.
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---

@@ -32,6 +32,16 @@ The **Customer Layout** is a React-based user interface designed for seamless cu
      ```
    - If the API server runs on a different port or IP address, update this setting accordingly.
 
+4. **Serve the Application**:
+    - To serve the application for production, run:
+      ```bash
+      npm run build
+      ```
+    - This will create a production build in the `build` directory.
+
+5. **Deploy the Application**:
+    - Deploy the contents of the `build` directory to a web server to host the application.
+
 ---
 
 ## 🔧 Troubleshooting

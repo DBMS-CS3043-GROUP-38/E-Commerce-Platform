@@ -59,6 +59,7 @@ The **Customer Layout** is a React-based user interface designed for seamless cu
 ## 🎨 User Interface Overview
 
 ### Login Page
+- Existing customers can log in using the Login page.
 ![Login Page](/images/Screenshot%202024-12-11%20165846.png)
 
 ### Sign-Up Page

@@ -12,7 +12,7 @@ const Profile = () => {
       const customerID = localStorage.getItem('customerID') || '1';
 
       try {
-        const response = await api.get(`/profile`, {
+        const response = await api.get(`api/profile`, {
           params: { customerID },
         });
         setUserData(response.data);

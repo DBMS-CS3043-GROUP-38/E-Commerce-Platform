@@ -9,7 +9,7 @@ const ProductPage = ({ category }) => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await api.get(`/products/Type/${category}`);
+                const response = await api.get(`api/products/Type/${category}`);
                 setProducts(response.data); // Set products from response data
             } catch (error) {
                 console.error('Error fetching products:', error);

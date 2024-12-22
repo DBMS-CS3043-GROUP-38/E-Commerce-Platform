@@ -26,7 +26,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       // Use the `api` service to make the request
-      const response = await api.post('/auth/signup', formData);
+      const response = await api.post('api/auth/signup', formData);
       setMessage(response.data.message);
 
       if (response.status === 201) {
